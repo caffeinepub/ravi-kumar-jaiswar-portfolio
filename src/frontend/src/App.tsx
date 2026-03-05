@@ -1,29 +1,29 @@
-import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/sonner";
-import { toast } from "sonner";
-import { useActor } from "./hooks/useActor";
+import { Textarea } from "@/components/ui/textarea";
 import {
-  Menu,
-  X,
-  Sun,
-  Moon,
-  TrendingUp,
+  Award,
   Briefcase,
-  Users,
-  MessageCircle,
-  Monitor,
   ChevronDown,
   Instagram,
-  Phone,
   Loader2,
+  Menu,
+  MessageCircle,
+  Monitor,
+  Moon,
+  Phone,
   Star,
-  Award,
+  Sun,
   Target,
+  TrendingUp,
+  Users,
+  X,
 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
+import { useActor } from "./hooks/useActor";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -70,8 +70,16 @@ const skills: Skill[] = [
 ];
 
 const stats = [
-  { value: "10+", label: "Years Experience", icon: <Award className="w-6 h-6" /> },
-  { value: "500+", label: "Clients Served", icon: <Users className="w-6 h-6" /> },
+  {
+    value: "10+",
+    label: "Years Experience",
+    icon: <Award className="w-6 h-6" />,
+  },
+  {
+    value: "500+",
+    label: "Clients Served",
+    icon: <Users className="w-6 h-6" />,
+  },
   { value: "100%", label: "Dedication", icon: <Target className="w-6 h-6" /> },
 ];
 
@@ -96,7 +104,7 @@ function useIntersectionObserver(threshold = 0.2) {
           observer.disconnect();
         }
       },
-      { threshold }
+      { threshold },
     );
     const el = ref.current;
     if (el) observer.observe(el);
@@ -115,7 +123,7 @@ function useCountUp(target: number, isVisible: boolean, duration = 1500) {
     const tick = () => {
       const elapsed = Date.now() - start;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
+      const eased = 1 - (1 - progress) ** 3;
       setCount(Math.round(eased * target));
       if (progress < 1) requestAnimationFrame(tick);
     };
@@ -127,8 +135,18 @@ function useCountUp(target: number, isVisible: boolean, duration = 1500) {
 
 // ─── Components ───────────────────────────────────────────────────────────────
 
-function AnimatedStat({ value, label, icon, isVisible }: { value: string; label: string; icon: React.ReactNode; isVisible: boolean }) {
-  const numericPart = parseInt(value.replace(/\D/g, ""), 10);
+function AnimatedStat({
+  value,
+  label,
+  icon,
+  isVisible,
+}: {
+  value: string;
+  label: string;
+  icon: React.ReactNode;
+  isVisible: boolean;
+}) {
+  const numericPart = Number.parseInt(value.replace(/\D/g, ""), 10);
   const suffix = value.replace(/\d/g, "");
   const count = useCountUp(numericPart, isVisible);
 
@@ -143,7 +161,11 @@ function AnimatedStat({ value, label, icon, isVisible }: { value: string; label:
   );
 }
 
-function SkillBar({ skill, isVisible, delay }: { skill: Skill; isVisible: boolean; delay: number }) {
+function SkillBar({
+  skill,
+  isVisible,
+  delay,
+}: { skill: Skill; isVisible: boolean; delay: number }) {
   return (
     <div
       className="group"
@@ -158,7 +180,9 @@ function SkillBar({ skill, isVisible, delay }: { skill: Skill; isVisible: boolea
           <span className="text-teal">{skill.icon}</span>
           <span className="font-body text-sm md:text-base">{skill.name}</span>
         </div>
-        <span className="font-display font-bold text-teal text-sm">{skill.percentage}%</span>
+        <span className="font-display font-bold text-teal text-sm">
+          {skill.percentage}%
+        </span>
       </div>
       <div className="h-2.5 rounded-full bg-muted overflow-hidden">
         <div
@@ -231,7 +255,7 @@ export default function App() {
         formData.lastName,
         formData.email,
         formData.message,
-        BigInt(Date.now())
+        BigInt(Date.now()),
       );
       toast.success("Message sent successfully! I'll get back to you soon.");
       setFormData({ firstName: "", lastName: "", email: "", message: "" });
@@ -289,7 +313,11 @@ export default function App() {
                 className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
                 aria-label="Toggle dark mode"
               >
-                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                {isDark ? (
+                  <Sun className="w-4 h-4" />
+                ) : (
+                  <Moon className="w-4 h-4" />
+                )}
               </button>
               <Button
                 onClick={() => scrollTo("#contact")}
@@ -305,7 +333,11 @@ export default function App() {
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-label="Toggle menu"
               >
-                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {mobileMenuOpen ? (
+                  <X className="w-5 h-5" />
+                ) : (
+                  <Menu className="w-5 h-5" />
+                )}
               </button>
             </div>
           </nav>
@@ -350,13 +382,33 @@ export default function App() {
           <div className="absolute bottom-1/4 left-[-5%] w-[30vw] h-[30vw] max-w-sm rounded-full bg-gold/10 blur-3xl" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-5">
             {/* Grid pattern */}
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <svg
+              width="100%"
+              height="100%"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
               <defs>
-                <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-                  <path d="M 60 0 L 0 0 0 60" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                <pattern
+                  id="grid"
+                  width="60"
+                  height="60"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <path
+                    d="M 60 0 L 0 0 0 60"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="0.5"
+                  />
                 </pattern>
               </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" className="text-white dark:text-white" />
+              <rect
+                width="100%"
+                height="100%"
+                fill="url(#grid)"
+                className="text-white dark:text-white"
+              />
             </svg>
           </div>
         </div>
@@ -401,7 +453,8 @@ export default function App() {
                 className="text-white/60 text-base leading-relaxed max-w-lg"
                 style={{ animation: "fade-up 0.7s ease-out 0.3s both" }}
               >
-                Senior Sales Executive with 10+ years of experience in sales, marketing, and business development.
+                Senior Sales Executive with 10+ years of experience in sales,
+                marketing, and business development.
               </p>
 
               {/* CTAs */}
@@ -439,31 +492,29 @@ export default function App() {
 
                 {/* Avatar */}
                 <div className="w-72 h-72 rounded-full glass-card flex items-center justify-center relative overflow-hidden">
-                  {/* Background gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-teal/30 to-gold/20" />
-                  {/* Initials */}
-                  <div className="relative z-10 text-center">
-                    <span className="font-display font-black text-8xl text-white select-none">
-                      RK
-                    </span>
-                    <div className="mt-1 text-xs font-medium text-white/50 tracking-widest uppercase">
-                      Sales Expert
-                    </div>
-                  </div>
+                  <img
+                    src="/assets/uploads/Screenshot-2026-02-27-211026-1.jpg"
+                    alt="Ravi Kumar Jaiswar"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
 
                 {/* Floating badge */}
                 <div className="absolute -bottom-4 -right-4 glass-card rounded-2xl px-4 py-3 animate-float">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                    <span className="text-xs font-medium text-white">Open to Work</span>
+                    <span className="text-xs font-medium text-white">
+                      Open to Work
+                    </span>
                   </div>
                 </div>
 
                 <div className="absolute -top-4 -left-4 glass-card rounded-2xl px-4 py-3">
                   <div className="flex items-center gap-2">
                     <TrendingUp className="w-4 h-4 text-gold" />
-                    <span className="text-xs font-medium text-white">10+ Years</span>
+                    <span className="text-xs font-medium text-white">
+                      10+ Years
+                    </span>
                   </div>
                 </div>
               </div>
@@ -484,19 +535,26 @@ export default function App() {
           {/* Section label */}
           <div className="flex items-center gap-4 mb-4">
             <div className="w-10 h-0.5 bg-teal" />
-            <span className="text-teal text-sm font-semibold tracking-widest uppercase">Who I Am</span>
+            <span className="text-teal text-sm font-semibold tracking-widest uppercase">
+              Who I Am
+            </span>
           </div>
           <h2 className="font-display font-black text-4xl sm:text-5xl text-foreground mb-16">
             About <span className="text-gradient-teal">Me</span>
           </h2>
 
-          <div ref={aboutObserver.ref} className="grid lg:grid-cols-2 gap-16 items-center">
+          <div
+            ref={aboutObserver.ref}
+            className="grid lg:grid-cols-2 gap-16 items-center"
+          >
             {/* Left — avatar */}
             <div
               className="flex justify-center"
               style={{
                 opacity: aboutObserver.isVisible ? 1 : 0,
-                transform: aboutObserver.isVisible ? "translateX(0)" : "translateX(-30px)",
+                transform: aboutObserver.isVisible
+                  ? "translateX(0)"
+                  : "translateX(-30px)",
                 transition: "opacity 0.8s ease, transform 0.8s ease",
               }}
             >
@@ -505,11 +563,12 @@ export default function App() {
                 <div className="absolute -inset-4 bg-gradient-to-br from-teal/10 to-gold/10 rounded-3xl blur-xl" />
                 <div className="relative w-64 h-64 sm:w-72 sm:h-72">
                   {/* Main avatar circle */}
-                  <div className="w-full h-full rounded-full bg-gradient-to-br from-teal/20 to-gold/10 border-4 border-teal/30 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="font-display font-black text-7xl text-gradient-teal select-none">RJ</div>
-                      <div className="text-sm font-medium text-muted-foreground mt-1">Ravi Kumar</div>
-                    </div>
+                  <div className="w-full h-full rounded-full border-4 border-teal/30 bg-gradient-to-br from-teal/20 to-gold/20 flex items-center justify-center overflow-hidden">
+                    <img
+                      src="/assets/uploads/Screenshot-2026-02-27-211026-1.jpg"
+                      alt="Ravi Kumar Jaiswar"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   {/* Corner badges */}
                   <div className="absolute -bottom-3 -right-3 bg-teal text-white rounded-2xl px-3 py-1.5 text-xs font-semibold shadow-lg">
@@ -524,25 +583,37 @@ export default function App() {
               className="space-y-6"
               style={{
                 opacity: aboutObserver.isVisible ? 1 : 0,
-                transform: aboutObserver.isVisible ? "translateX(0)" : "translateX(30px)",
+                transform: aboutObserver.isVisible
+                  ? "translateX(0)"
+                  : "translateX(30px)",
                 transition: "opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s",
               }}
             >
               <p className="text-muted-foreground text-lg leading-relaxed">
                 Hi, I'm{" "}
-                <span className="text-foreground font-semibold">Ravi Kumar Jaiswar</span>. I work
-                in sales and marketing and have more than 10 years of experience in business
-                development and customer handling. I enjoy building strong relationships with clients
-                and helping businesses grow.
+                <span className="text-foreground font-semibold">
+                  Ravi Kumar Jaiswar
+                </span>
+                . I work in sales and marketing and have more than 10 years of
+                experience in business development and customer handling. I
+                enjoy building strong relationships with clients and helping
+                businesses grow.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                I am hardworking, flexible, and always ready to learn new skills. My goal is to
-                create lasting partnerships that drive mutual growth and success.
+                I am hardworking, flexible, and always ready to learn new
+                skills. My goal is to create lasting partnerships that drive
+                mutual growth and success.
               </p>
 
               {/* Highlight tags */}
               <div className="flex flex-wrap gap-2">
-                {["Sales Strategy", "Client Growth", "B2B & B2C", "Team Leadership", "Market Expansion"].map((tag) => (
+                {[
+                  "Sales Strategy",
+                  "Client Growth",
+                  "B2B & B2C",
+                  "Team Leadership",
+                  "Market Expansion",
+                ].map((tag) => (
                   <span
                     key={tag}
                     className="px-3 py-1.5 rounded-full bg-teal/10 text-teal text-xs font-medium border border-teal/20"
@@ -566,7 +637,9 @@ export default function App() {
             className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-20"
             style={{
               opacity: aboutObserver.isVisible ? 1 : 0,
-              transform: aboutObserver.isVisible ? "translateY(0)" : "translateY(20px)",
+              transform: aboutObserver.isVisible
+                ? "translateY(0)"
+                : "translateY(20px)",
               transition: "opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s",
             }}
           >
@@ -588,16 +661,22 @@ export default function App() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-10 h-0.5 bg-gold" />
-            <span className="text-gold text-sm font-semibold tracking-widest uppercase">Expertise</span>
+            <span className="text-gold text-sm font-semibold tracking-widest uppercase">
+              Expertise
+            </span>
           </div>
           <h2 className="font-display font-black text-4xl sm:text-5xl text-foreground mb-4">
             My <span className="text-gradient-gold">Skills</span>
           </h2>
           <p className="text-muted-foreground mb-16 max-w-xl">
-            Years of hands-on experience have honed these core competencies into strengths that drive results.
+            Years of hands-on experience have honed these core competencies into
+            strengths that drive results.
           </p>
 
-          <div ref={skillsObserver.ref} className="grid lg:grid-cols-2 gap-x-16 gap-y-8">
+          <div
+            ref={skillsObserver.ref}
+            className="grid lg:grid-cols-2 gap-x-16 gap-y-8"
+          >
             {skills.map((skill, i) => (
               <SkillBar
                 key={skill.name}
@@ -612,7 +691,9 @@ export default function App() {
               className="lg:col-span-2 mt-8"
               style={{
                 opacity: skillsObserver.isVisible ? 1 : 0,
-                transform: skillsObserver.isVisible ? "translateY(0)" : "translateY(20px)",
+                transform: skillsObserver.isVisible
+                  ? "translateY(0)"
+                  : "translateY(20px)",
                 transition: "opacity 0.8s ease 0.7s, transform 0.8s ease 0.7s",
               }}
             >
@@ -628,8 +709,12 @@ export default function App() {
                   >
                     <span className="text-2xl">{item.icon}</span>
                     <div>
-                      <div className="font-display font-bold text-xl text-foreground">{item.value}</div>
-                      <div className="text-xs text-muted-foreground">{item.label}</div>
+                      <div className="font-display font-bold text-xl text-foreground">
+                        {item.value}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {item.label}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -644,13 +729,16 @@ export default function App() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-10 h-0.5 bg-teal" />
-            <span className="text-teal text-sm font-semibold tracking-widest uppercase">Reach Out</span>
+            <span className="text-teal text-sm font-semibold tracking-widest uppercase">
+              Reach Out
+            </span>
           </div>
           <h2 className="font-display font-black text-4xl sm:text-5xl text-foreground mb-4">
             Get In <span className="text-gradient-teal">Touch</span>
           </h2>
           <p className="text-muted-foreground mb-16 max-w-xl">
-            Ready to discuss opportunities or just want to connect? I'd love to hear from you.
+            Ready to discuss opportunities or just want to connect? I'd love to
+            hear from you.
           </p>
 
           <div className="grid lg:grid-cols-2 gap-16">
@@ -659,7 +747,10 @@ export default function App() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName" className="text-sm font-medium text-foreground">
+                    <Label
+                      htmlFor="firstName"
+                      className="text-sm font-medium text-foreground"
+                    >
                       First Name <span className="text-destructive">*</span>
                     </Label>
                     <Input
@@ -667,13 +758,21 @@ export default function App() {
                       type="text"
                       placeholder="Rahul"
                       value={formData.firstName}
-                      onChange={(e) => setFormData((p) => ({ ...p, firstName: e.target.value }))}
+                      onChange={(e) =>
+                        setFormData((p) => ({
+                          ...p,
+                          firstName: e.target.value,
+                        }))
+                      }
                       required
                       className="border-border focus:border-teal focus:ring-teal/20"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName" className="text-sm font-medium text-foreground">
+                    <Label
+                      htmlFor="lastName"
+                      className="text-sm font-medium text-foreground"
+                    >
                       Last Name
                     </Label>
                     <Input
@@ -681,13 +780,18 @@ export default function App() {
                       type="text"
                       placeholder="Sharma"
                       value={formData.lastName}
-                      onChange={(e) => setFormData((p) => ({ ...p, lastName: e.target.value }))}
+                      onChange={(e) =>
+                        setFormData((p) => ({ ...p, lastName: e.target.value }))
+                      }
                       className="border-border focus:border-teal focus:ring-teal/20"
                     />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium text-foreground">
+                  <Label
+                    htmlFor="email"
+                    className="text-sm font-medium text-foreground"
+                  >
                     Email Address <span className="text-destructive">*</span>
                   </Label>
                   <Input
@@ -695,20 +799,27 @@ export default function App() {
                     type="email"
                     placeholder="rahul@example.com"
                     value={formData.email}
-                    onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
+                    onChange={(e) =>
+                      setFormData((p) => ({ ...p, email: e.target.value }))
+                    }
                     required
                     className="border-border focus:border-teal focus:ring-teal/20"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="message" className="text-sm font-medium text-foreground">
+                  <Label
+                    htmlFor="message"
+                    className="text-sm font-medium text-foreground"
+                  >
                     Message <span className="text-destructive">*</span>
                   </Label>
                   <Textarea
                     id="message"
                     placeholder="I'd love to discuss a business opportunity with you..."
                     value={formData.message}
-                    onChange={(e) => setFormData((p) => ({ ...p, message: e.target.value }))}
+                    onChange={(e) =>
+                      setFormData((p) => ({ ...p, message: e.target.value }))
+                    }
                     required
                     rows={5}
                     className="border-border focus:border-teal focus:ring-teal/20 resize-none"
@@ -735,9 +846,13 @@ export default function App() {
             <div className="space-y-8">
               {/* Contact info */}
               <div className="space-y-4">
-                <h3 className="font-display font-bold text-xl text-foreground">Connect With Me</h3>
+                <h3 className="font-display font-bold text-xl text-foreground">
+                  Connect With Me
+                </h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  Whether you have a business proposal, want to explore partnerships, or just want to say hello — my inbox is always open.
+                  Whether you have a business proposal, want to explore
+                  partnerships, or just want to say hello — my inbox is always
+                  open.
                 </p>
               </div>
 
@@ -753,8 +868,12 @@ export default function App() {
                     <Instagram className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <div className="font-medium text-foreground text-sm group-hover:text-teal transition-colors">Instagram</div>
-                    <div className="text-xs text-muted-foreground">@ravi.jaiswar07</div>
+                    <div className="font-medium text-foreground text-sm group-hover:text-teal transition-colors">
+                      Instagram
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      @ravi.jaiswar07
+                    </div>
                   </div>
                 </a>
 
@@ -768,8 +887,12 @@ export default function App() {
                     <Phone className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <div className="font-medium text-foreground text-sm group-hover:text-teal transition-colors">WhatsApp</div>
-                    <div className="text-xs text-muted-foreground">+91 89767 01006</div>
+                    <div className="font-medium text-foreground text-sm group-hover:text-teal transition-colors">
+                      WhatsApp
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      +91 89767 01006
+                    </div>
                   </div>
                 </a>
               </div>
@@ -779,9 +902,12 @@ export default function App() {
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 rounded-full bg-green-400 mt-1.5 animate-pulse shrink-0" />
                   <div>
-                    <div className="font-semibold text-foreground text-sm mb-1">Quick Response</div>
+                    <div className="font-semibold text-foreground text-sm mb-1">
+                      Quick Response
+                    </div>
                     <div className="text-xs text-muted-foreground leading-relaxed">
-                      I typically respond within 24 hours. For urgent matters, feel free to reach me directly on WhatsApp.
+                      I typically respond within 24 hours. For urgent matters,
+                      feel free to reach me directly on WhatsApp.
                     </div>
                   </div>
                 </div>
@@ -796,12 +922,15 @@ export default function App() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
-              <span className="font-display font-bold text-foreground">Ravi Kumar Jaiswar</span>
+              <span className="font-display font-bold text-foreground">
+                Ravi Kumar Jaiswar
+              </span>
               <span className="text-border">—</span>
               <span>Senior Sales Executive</span>
             </div>
             <div className="text-center">
-              © {new Date().getFullYear()} Ravi Kumar Jaiswar. All rights reserved.
+              © {new Date().getFullYear()} Ravi Kumar Jaiswar. All rights
+              reserved.
             </div>
             <div className="text-xs">
               Built with{" "}
